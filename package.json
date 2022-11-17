@@ -6,8 +6,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@emailjs/browser": "^3.7.0",
-    "emailjs": "^4.0.1",
     "emailjs-com": "^2.6.4",
     "graphql": "^16.6.0",
     "graphql-request": "^5.0.0",
