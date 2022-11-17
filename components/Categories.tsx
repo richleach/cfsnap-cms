@@ -19,6 +19,7 @@ const Categories = () => {
         
       // @ts-ignore
         <Link key={index} href={`/blog/${category.slug}`}>
+      // @ts-ignore
           <span className={`cursor-pointer block ${(index === categories.length - 1) ? 'border-b-0' : 'border-b'} pb-1 mb-3`}>{category.name}</span>
         </Link>
       ))}
