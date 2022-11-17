@@ -1,86 +1,61 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import {Categories, PostWidget, PostCard, Header } from '../components/'
+import Footer from '../components/Footer'
+import { getPosts} from '../services'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({posts}) => {
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="container mx-auto px-10 mb-8">
+
       <Head>
-        <title>Create Next App</title>
+        <title>cfsnap.com</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
+      <div className='grid grid-cols-1 md:grid-cols-12 gap-12'>
+        <div className='sm:col-span-8 col-span-1'>
+          <div className='bg-white shadow-lg rounded-lg p-0 md:p-4 pb-12 mb-8'>
+            <div className='grid grid-cols-1 gap-4 align-middle'>
+              <div className="inline-block align-middle bg-white shadow-lg rounded-lg p-0 sm:p-2 pb-0 mb-1 ">
+                  <img src="/images/richLeachSelfie.webp" width="106" height="175" className='float-right' />
+                  <p className='text-md md:text-2xl p-2 pb-0 mb-0 font-semibold text-center sm:align-middle'>Internet stuff, partially skewed points of view and shameless promotional hype.
+                  <span className='text-sm p-4 pb-0 mb-0 text-center'><br />(...not necessarily in that order)</span></p>
+                  
+              </div>
 
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+              {/* <div className="inline-block bg-white shadow-lg rounded-lg p-0 sm:p-8 pb-0 mb-1 align-middle">
+                
+              </div> */}
+            </div>
+          </div>
+          {posts.map((post:any, index:any) => (
+            <PostCard post={post.node} key={index} />
+          ))}
         </div>
-      </main>
-
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer>
+        <div className='sm:col-span-4 col-span-1'>
+            <div className='sm:sticky relative top-8'>
+              <Categories />
+              {/* <PostWidget /> */}
+            </div>
+        </div>
+        
+      </div>
+      
+      <Footer />
+      
     </div>
   )
 }
 
 export default Home
+
+export async function getStaticProps(){
+  const posts = (await getPosts()) || []
+
+  return {
+    props: { posts }
+  }
+}
